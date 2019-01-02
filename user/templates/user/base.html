@@ -41,8 +41,44 @@
       </nav>
     </header>
     <main role="main" class="container">
+      <ul class="navig" style="position: absolute;">
+        <li class="main-menu">
+          {% if user.is_authenticated %}
+            <a href="#">Home</a>
+            <a href="#">About</a>
+          {% else %}
+            <a href="#">About</a>
+            <a href="#"></a>
+            {% endif %}
+        </li>
+        {% if user.is_authenticated%}
+        <li class="transaction">
+          <a href="#">All Categories</a>
+          <a href="#">All Transactions</a>
+        </li>
+        <li class="create-new">
+          <a href="#">New Category</a>
+          <a href="#">Add new Transaction</a>
+        </li>
+        <li class="chart">
+          <a href="#">Pie Chart</a>
+          <a href="#">Spline Chart</a>
+        </li>
+        {% endif %}
+        <li class="profile">
+          {% if user.is_authenticated %}
+            <a href="#">Profile</a>
+            <a href="#">Logout</a>
+          {% else %}
+            <a href="#">Login</a>
+            <a href="#">Register</a>
+          {% endif %}
+
+       </li>
+
+      </ul>
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-9 offset-md-3">
         {% if messages %}
 
             {% for message in messages %}
