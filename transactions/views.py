@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.db.models import ProtectedError
 from django.views.generic import (
     CreateView,
     ListView,
@@ -39,3 +41,11 @@ class CategoryDeleteView(DeleteView):
     model = Category
     template_name = 'transactions/delete_category.html'
     success_url = '/'
+
+    def post(self, request, *args, **kwargs):
+        try:
+            return self.delete(request, *args, **kwargs)
+
+        except ProtectedError:
+            messages.warning(request, f'You cannot delete this category')
+            return redirect('home')

@@ -7,6 +7,7 @@ from .views import (
     CategoryListView,
     TransactionListView,
     TransactionDeleteView,
+    CategoryDeleteView,
 )
 
 urlpatterns = [
@@ -15,4 +16,5 @@ urlpatterns = [
     path('all_categories/', CategoryListView.as_view(), name='all-categories'),
     path('all_transactions/', TransactionListView.as_view(), name='all-transactions'),
     path('transaction/<int:pk>/delete', TransactionDeleteView.as_view(), name='transaction-delete'),
+    path('category/<int:pk>/delete', CategoryDeleteView.as_view(), name='category-delete'),
 ]
