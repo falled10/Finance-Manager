@@ -1,7 +1,22 @@
 {% extends 'user/base.html' %}
 {% load static %}
 {% block content %}
-<table class="table">
+<form method="POST">
+  {% csrf_token %}
+  <select class="form-control" name="transaction">
+    {% if category_list %}
+      {% for object in category_list %}
+          <option value="{{object.name}}">{{ object.name }}</option>
+      {% endfor %}
+    {% else %}
+      {% for object in object_list %}
+          <option value="{{object.category.name}}">{{ object.category.name }}</option>
+      {% endfor %}
+    {% endif %}
+  </select>
+  <button type="submit" class="btn btn-outline-info mb-2 mt-2">Find</button>
+</form>
+<table class="table"> 
   <thead>
     <tr>
       <th scope="col">Category</th>

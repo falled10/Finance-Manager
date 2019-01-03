@@ -43,10 +43,28 @@ class CategoryListView(ListView):
     template_name = 'transactions/all_categories.html'
     queryset = Category.objects.all()
 
+    def post(self, request, *args, **kwargs):
+        category = request.POST['category']
+        object_list = Category.objects.filter(name__startswith=category)
+        context = {
+            'object_list': object_list,
+        }
+        return render(request, self.template_name, context)
+
 
 class TransactionListView(ListView):
     template_name = 'transactions/all_transactions.html'
     queryset = Transaction.objects.all()
+
+    def post(self, request, *args, **kwargs):
+        transaction = request.POST['transaction']
+        category = Category.objects.get(name=transaction)
+        object_list = Transaction.objects.filter(category=category)
+        context = {
+            'object_list': object_list,
+            'category_list': Category.objects.all()
+        }
+        return render(request, self.template_name, context)
 
 
 class TransactionDeleteView(DeleteView):

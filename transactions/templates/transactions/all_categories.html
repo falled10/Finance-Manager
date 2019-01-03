@@ -1,6 +1,12 @@
 {% extends 'user/base.html' %}
 {% load static %}
 {% block content %}
+
+<form method="POST">
+  {% csrf_token %}
+  <input name="category" type="text" placeholder="Enter category" class="form-control">
+  <button type="submit" class="btn btn-outline-info mb-2 mt-2">Find</button>
+</form>
 <table class="table">
   <thead>
     <tr>
