@@ -9,6 +9,7 @@ from django.views.generic import (
 )
 from .models import Category, Transaction
 from .forms import CategoryCreateForm, TransactionCreateForm
+import json
 
 
 class CategoryCreateView(CreateView):
@@ -85,3 +86,26 @@ class CategoryDeleteView(DeleteView):
         except ProtectedError:
             messages.warning(request, f'You cannot delete this category')
             return redirect('home')
+
+
+def generate_spline(request):
+    context = {
+        'option_list': Transaction.objects.all(),
+        'categories_list': Category.objects.all(),
+    }
+    if request.method == 'POST':
+        try:
+            start = request.POST['start']
+            end = request.POST['end']
+            option = request.POST['option']
+            category = request.POST['category']
+            category = Category.objects.get(name=category)
+            data = Transaction.objects.filter(category=category, operation_type=option, pub_date__range=(start, end))
+            data_for_graph = [[i.pub_date.strftime('%Y-%m-%d'), float(i.money)] for i in data]
+            print(data_for_graph)
+            context['data'] = json.dumps(data_for_graph)
+        except:
+            messages.warning(request, 'You should select date!')
+            return redirect('spline')
+
+    return render(request, 'transactions/spline_graph.html', context)

@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path, include
+from . import views
 from .views import (
     CategoryCreateView,
     TransactionCreateView,
@@ -21,4 +22,5 @@ urlpatterns = [
     path('category/<int:pk>/delete', CategoryDeleteView.as_view(), name='category-delete'),
     path('transaction/<int:pk>/update', TransactionUpdateView.as_view(), name='transaction-update'),
     path('category/<int:pk>/update', CategoryUpdateView.as_view(), name='category-update'),
+    path('spline/', views.generate_spline, name='spline'),
 ]
