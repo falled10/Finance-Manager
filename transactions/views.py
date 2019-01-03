@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.views.generic import (
     CreateView,
     ListView,
+    DeleteView,
+    UpdateView,
 )
 from .models import Category, Transaction
 from .forms import CategoryCreateForm, TransactionCreateForm
@@ -25,3 +27,15 @@ class CategoryListView(ListView):
 class TransactionListView(ListView):
     template_name = 'transactions/all_transactions.html'
     queryset = Transaction.objects.all()
+
+
+class TransactionDeleteView(DeleteView):
+    model = Transaction
+    template_name = 'transactions/delete_transaction.html'
+    success_url = '/'
+
+
+class CategoryDeleteView(DeleteView):
+    model = Category
+    template_name = 'transactions/delete_category.html'
+    success_url = '/'
