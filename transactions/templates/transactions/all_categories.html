@@ -15,7 +15,7 @@
       <td>{{ object.name }}</td>
       <td>{{ object.brief_description }}</td>
       <td>
-      	<a href="#"><img src="{% static 'user/img/writing.png' %}" height="24" width="24" alt="edit"></a>
+      	<a href="{% url 'category-update' object.id %}"><img src="{% static 'user/img/writing.png' %}" height="24" width="24" alt="edit"></a>
       	<a href="{% url 'category-delete' object.id %}"><img src="{% static 'user/img/delete.png' %}" height="24" width="24" alt="delete"></a>
       </td>
     </tr>

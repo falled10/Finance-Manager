@@ -21,6 +21,24 @@ class TransactionCreateView(CreateView):
     form_class = TransactionCreateForm
 
 
+class TransactionUpdateView(UpdateView):
+    template_name = 'transactions/transaction_create.html'
+    form_class = TransactionCreateForm
+    queryset = Transaction.objects.all()
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+
+class CategoryUpdateView(UpdateView):
+    template_name = 'transactions/category_create.html'
+    form_class = CategoryCreateForm
+    queryset = Category.objects.all()
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+
 class CategoryListView(ListView):
     template_name = 'transactions/all_categories.html'
     queryset = Category.objects.all()
