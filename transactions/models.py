@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Category(models.Model):
@@ -6,7 +7,10 @@ class Category(models.Model):
     brief_desctiption = models.CharField(max_length=200)
 
     def __str__(self):
-        return f'{self.name} category'
+        return f'{self.name}'
+
+    def get_absolute_url(self):
+        return reverse('category-create')
 
 
 class Transaction(models.Model):
@@ -18,3 +22,7 @@ class Transaction(models.Model):
 
     def __str__(self):
         return f'{self.brief_desctiption}'
+
+
+    def get_absolute_url(self):
+        return reverse('transaction-create')
