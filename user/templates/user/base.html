@@ -53,8 +53,8 @@
         </li>
         {% if user.is_authenticated%}
         <li class="transaction">
-          <a href="#">All Categories</a>
-          <a href="#">All Transactions</a>
+          <a href="{% url 'all-categories' %}">All Categories</a>
+          <a href="{% url 'all-transactions' %}">All Transactions</a>
         </li>
         <li class="create-new">
           <a href="{% url 'category-create' %}">New Category</a>

@@ -1,0 +1,25 @@
+{% extends 'user/base.html' %}
+{% load static %}
+{% block content %}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Description</th>
+      <th scope="col">Settings</th>
+    </tr>
+  </thead>
+  <tbody>
+  	{% for object in object_list %}
+    <tr>
+      <td>{{ object.name }}</td>
+      <td>{{ object.brief_description }}</td>
+      <td>
+      	<a href="#"><img src="{% static 'user/img/writing.png' %}" height="24" width="24" alt="edit"></a>
+      	<a href="#"><img src="{% static 'user/img/delete.png' %}" height="24" width="24" alt="delete"></a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock content %}
