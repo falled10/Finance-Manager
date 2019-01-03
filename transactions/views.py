@@ -109,3 +109,28 @@ def generate_spline(request):
             return redirect('spline')
 
     return render(request, 'transactions/spline_graph.html', context)
+
+
+def generate_pie(request):
+    context = {
+        'option_list': Transaction.objects.all(),
+        'categories_list': Category.objects.all(),
+    }
+    if request.method == 'POST':
+        try:
+            start = request.POST['start']
+            end = request.POST['end']
+            option = request.POST['option']
+            data = Transaction.objects.filter(operation_type=option, pub_date__range=(start, end))
+            categories = Category.objects.all()
+            data_for_graph = []
+            for category in categories:
+                data_for_graph.append({'name': category.name, 'y': sum([float(i.money) for i in data.filter(category=category)])})
+
+            print(data_for_graph)
+            context['data'] = json.dumps(data_for_graph)
+        except:
+            messages.warning(request, 'You should select date!')
+            return redirect('pie')
+
+    return render(request, 'transactions/pie_graph.html', context)

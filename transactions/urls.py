@@ -23,4 +23,5 @@ urlpatterns = [
     path('transaction/<int:pk>/update', TransactionUpdateView.as_view(), name='transaction-update'),
     path('category/<int:pk>/update', CategoryUpdateView.as_view(), name='category-update'),
     path('spline/', views.generate_spline, name='spline'),
+    path('pie/', views.generate_pie, name='pie'),
 ]
