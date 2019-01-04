@@ -61,6 +61,15 @@ class TransactionDeleteView(DeleteView):
 
 
 def generate_spline(request):
+    '''
+    this method generate data for spline graph
+
+    from each transactions between start date and end date,
+    category and operation we take from user,
+    we take date (formated) and money, and put them to the data list
+
+    then we dumps to json format the data.
+    '''
     choices = [i[0] for i in OPERATIONS_CHOICES]
     context = {
         'option_list': choices,
@@ -70,10 +79,10 @@ def generate_spline(request):
         try:
             start = request.POST['start']
             end = request.POST['end']
-            option = request.POST['option']
+            operation = request.POST['option']
             category = request.POST['category']
             category = Category.objects.get(name=category)
-            data = Transaction.objects.filter(user=request.user, category=category, operation_type=option, pub_date__range=(start, end))
+            data = Transaction.objects.filter(user=request.user, category=category, operation_type=operation, pub_date__range=(start, end))
             data_for_graph = [[i.pub_date.strftime('%Y-%m-%d'), float(i.money)] for i in data]
             print(data_for_graph)
             context['data'] = json.dumps(data_for_graph)
@@ -85,6 +94,36 @@ def generate_spline(request):
 
 
 def generate_pie(request):
+    '''
+
+    this method generate data for pie graph,
+
+    we take start date and end date, and operation
+    from post request and filter all transactions by this data
+
+    then 
+
+    we take all categories and iterate them
+    during iteration we take each category 
+    and sum of money of each transactions in this category,
+
+    then we put this sum and category name in list of data,
+    and dumps this data to json format 
+    ------------------------------------------
+    example:
+    data = []
+    categories = ['food', 'rest']
+    money_for_foor_transactions = [100, 200]
+    money_for_rest_transactions = [500, 100]
+
+    food => sum = 100+200
+    data.append({name: food, y: sum})
+
+    rest => sum = 500 + 100
+    data.append({name: rest, y: sum})
+    -------------------------------------------
+
+    '''
     choices = [i[0] for i in OPERATIONS_CHOICES]
     context = {
         'option_list': choices,
@@ -93,7 +132,7 @@ def generate_pie(request):
         try:
             start = request.POST['start']
             end = request.POST['end']
-            option = request.POST['option']
+            operation = request.POST['option']
             data = Transaction.objects.filter(user=request.user, operation_type=option, pub_date__range=(start, end))
             categories = Category.objects.all()
             data_for_graph = []
