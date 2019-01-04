@@ -79,13 +79,14 @@ def generate_spline(request):
         try:
             start = request.POST['start']
             end = request.POST['end']
-            operation = request.POST['option']
+            option = request.POST['option']
             category = request.POST['category']
-            category = Category.objects.get(name=category)
-            data = Transaction.objects.filter(user=request.user, category=category, operation_type=operation, pub_date__range=(start, end))
+            category = Category.objects.get(name=category, user=request.user)
+            data = Transaction.objects.filter(user=request.user, category=category, operation_type=option, pub_date__range=(start, end))
             data_for_graph = [[i.pub_date.strftime('%Y-%m-%d'), float(i.money)] for i in data]
             print(data_for_graph)
             context['data'] = json.dumps(data_for_graph)
+            context['operation'] = option
         except:
             messages.warning(request, 'You should select date!')
             return redirect('spline')
@@ -132,15 +133,17 @@ def generate_pie(request):
         try:
             start = request.POST['start']
             end = request.POST['end']
-            operation = request.POST['option']
+            option = request.POST['option']
             data = Transaction.objects.filter(user=request.user, operation_type=option, pub_date__range=(start, end))
-            categories = Category.objects.all()
+            categories = Category.objects.filter(user=request.user)
             data_for_graph = []
             for category in categories:
                 data_for_graph.append({'name': category.name, 'y': sum([float(i.money) for i in data.filter(category=category)])})
 
             print(data_for_graph)
             context['data'] = json.dumps(data_for_graph)
+            context['data_for_table'] = data_for_graph
+            context['operation'] = option
         except:
             messages.warning(request, 'You should select date!')
             return redirect('pie')

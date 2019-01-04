@@ -17,6 +17,23 @@
 </form>
 <div id="pie" style="min-width: 410px; height: 500px; max-width: 600px; margin: 0 auto" class="mt-4"></div>
 
+<table class="table mt-3"> 
+  <thead>
+    <tr>
+      <th scope="col">Category</th>
+      <th scope="col">Money</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for value in data_for_table %}
+    <tr>
+      <td>{{ value.name }}</td>
+      <td>{{ value.y }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
@@ -29,7 +46,7 @@
         type: 'pie'
     },
     title: {
-        text: 'Browser market shares in January, 2018'
+        text: 'Distribution {{ operation }} by Days'
     },
     tooltip: {
         pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
