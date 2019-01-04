@@ -1,6 +1,6 @@
 ## Finance Manager
 It`s a servise that can you help to control your finances, and can give you statistic about you money by days or by categories
-
+You can try on https://kulyk.pythonanywhere.com
 
 ## Tech/framework used
 Ex. -
