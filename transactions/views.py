@@ -25,10 +25,6 @@ class TransactionCreateView(LoginRequiredMixin, CreateView):
 
         return super().form_valid(form)
 
-    def get_queryset(self):
-        user = self.request.user
-        return Transaction.objects.filter(user=user)
-
 
 class TransactionUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     template_name = 'transactions/transaction_create.html'

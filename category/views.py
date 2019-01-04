@@ -23,10 +23,6 @@ class CategoryCreateView(LoginRequiredMixin, CreateView):
 
         return super().form_valid(form)
 
-    def get_queryset(self):
-        user = self.request.user
-        return Category.objects.filter(user=user)
-
 
 class CategoryUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     template_name = 'category/category_create.html'
