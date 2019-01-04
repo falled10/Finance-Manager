@@ -24,7 +24,6 @@
           <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
               <a class="nav-item nav-link" href="{% url 'home' %}">Home</a>
-              <a class="nav-item nav-link" href="#">About</a>
             </div>
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
@@ -45,9 +44,9 @@
         <li class="main-menu">
           {% if user.is_authenticated %}
             <a href="{% url 'home' %}">Home</a>
-            <a href="#">About</a>
+            <a href="#"></a>
           {% else %}
-            <a href="#">About</a>
+            <a href="{% url 'home' %}">Home</a>
             <a href="#"></a>
             {% endif %}
         </li>
