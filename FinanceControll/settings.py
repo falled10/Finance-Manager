@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'kulyk.pythonanywhere.com',
+    'localhost',
 ]
 
 
