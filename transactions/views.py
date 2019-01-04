@@ -25,6 +25,14 @@ class TransactionCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView)
 
         return super().form_valid(form)
 
+    def test_func(self):  # this func check that the user which want to delete the post should be author of this post
+        category = self.get_object()
+
+        if self.request.user == category.user:
+            return True
+        else:
+            return False
+
 
 class TransactionUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     template_name = 'transactions/transaction_create.html'
