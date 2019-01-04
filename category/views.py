@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.db.models import ProtectedError
@@ -13,7 +14,7 @@ from .forms import CategoryCreateForm
 import json
 
 
-class CategoryCreateView(CreateView):
+class CategoryCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     template_name = 'category/category_create.html'
     form_class = CategoryCreateForm
 
@@ -23,7 +24,7 @@ class CategoryCreateView(CreateView):
         return super().form_valid(form)
 
 
-class CategoryUpdateView(UpdateView):
+class CategoryUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     template_name = 'category/category_create.html'
     form_class = CategoryCreateForm
     queryset = Category.objects.all()
@@ -32,8 +33,16 @@ class CategoryUpdateView(UpdateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
+    def test_func(self):  # this func check that the user which want to delete the post should be author of this post
+        category = self.get_object()
 
-class CategoryListView(ListView):
+        if self.request.user == category.user:
+            return True
+        else:
+            return False
+
+
+class CategoryListView(LoginRequiredMixin, ListView):
     template_name = 'category/all_categories.html'
 
     def get_queryset(self):
@@ -49,7 +58,7 @@ class CategoryListView(ListView):
         return render(request, self.template_name, context)
 
 
-class CategoryDeleteView(DeleteView):
+class CategoryDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Category
     template_name = 'category/delete_category.html'
     success_url = '/'

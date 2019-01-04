@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.db.models import ProtectedError
@@ -15,7 +16,7 @@ from .forms import TransactionCreateForm
 import json
 
 
-class TransactionCreateView(CreateView):
+class TransactionCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     template_name = 'transactions/transaction_create.html'
     form_class = TransactionCreateForm
 
@@ -25,17 +26,25 @@ class TransactionCreateView(CreateView):
         return super().form_valid(form)
 
 
-class TransactionUpdateView(UpdateView):
+class TransactionUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     template_name = 'transactions/transaction_create.html'
     form_class = TransactionCreateForm
     queryset = Transaction.objects.all()
 
+    def test_func(self):  # this func check that the user which want to delete the post should be author of this post
+        transaction = self.get_object()
+
+        if self.request.user == transaction.user:
+            return True
+        else:
+            return False
+
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
 
-class TransactionListView(ListView):
+class TransactionListView(LoginRequiredMixin, ListView):
     template_name = 'transactions/all_transactions.html'
 
     def get_context_data(self, **kwargs):
@@ -58,7 +67,7 @@ class TransactionListView(ListView):
         return render(request, self.template_name, context)
 
 
-class TransactionDeleteView(DeleteView):
+class TransactionDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Transaction
     template_name = 'transactions/delete_transaction.html'
     success_url = '/'
