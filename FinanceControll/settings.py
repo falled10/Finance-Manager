@@ -25,7 +25,9 @@ SECRET_KEY = '3q$s(!*(uhq611cxj3a6+bpbe05!8()aw6%_!3j+2s%9rd7gxb'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'kulyk.pythonanywhere.com',
+]
 
 
 # Application definition
