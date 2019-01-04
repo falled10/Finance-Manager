@@ -1,4 +1,20 @@
 {% extends 'user/base.html' %}
+{% load static %}
 {% block content %}
-    <h1>Hello Friend</h1>
+    <h1 class="title">Finance Manager - Why?</h1>
+    <p class="text">
+    	Finance Manager can help you control your money.
+    </p>
+    <h2 class="about">How?</h2>
+    <p class="text">
+    	It`s simple! You should just create new category and add new transaction. <img src="{% static 'user/img/transaction.png' %}" alt="money"><br>
+    	And Finance Manager will give you a statistic about your money. <img src="{% static 'user/img/pie-chart.png' %}" alt="pie"><br>
+    	You always can look at your transactions and categories and change them <img src="{% static 'user/img/list.png' %}" alt="list">
+    </p>
+
+    <h2 class="about">You can look at your money by days</h2>
+    <img src="{% static 'user/img/pie.jpg' %}" alt="pie" class="graph">
+
+    <h2 class="about">Or you can look at your money by categories</h2>
+    <img src="{% static 'user/img/spline.jpg' %}" alt="spline" class="graph">
 {% endblock content %}

@@ -173,3 +173,29 @@ a.article-title:hover {
 .chart a:first-child::before {
   background: url(../img/pie-chart.png) center no-repeat;
 }
+
+
+.title {
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.text {
+  font-size: 22px;
+  margin-left: 20px;
+  background: gray;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  width: 780px;
+}
+
+.about {
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.graph {
+  margin-left: 20px;
+  margin-bottom: 5px;
+}

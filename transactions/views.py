@@ -144,6 +144,8 @@ def generate_pie(request):
             context['data'] = json.dumps(data_for_graph)
             context['data_for_table'] = data_for_graph
             context['operation'] = option
+            context['start'] = start
+            context['end'] = end
         except:
             messages.warning(request, 'You should select date!')
             return redirect('pie')
