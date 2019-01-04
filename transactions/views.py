@@ -37,7 +37,11 @@ class TransactionUpdateView(UpdateView):
 
 class TransactionListView(ListView):
     template_name = 'transactions/all_transactions.html'
-    queryset = Transaction.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super(TransactionListView, self).get_context_data(**kwargs)
+        context['category_list'] = Category.objects.filter(user=self.request.user)
+        return context
 
     def get_queryset(self):
         user = self.request.user
@@ -49,7 +53,7 @@ class TransactionListView(ListView):
         object_list = Transaction.objects.filter(category=category)
         context = {
             'object_list': object_list,
-            'category_list': Category.objects.all()
+            'category_list': Category.objects.filter(user=self.request.user),
         }
         return render(request, self.template_name, context)
 
