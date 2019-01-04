@@ -14,7 +14,7 @@ from .forms import CategoryCreateForm
 import json
 
 
-class CategoryCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+class CategoryCreateView(LoginRequiredMixin, CreateView):
     template_name = 'category/category_create.html'
     form_class = CategoryCreateForm
 
@@ -22,14 +22,6 @@ class CategoryCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         form.instance.user = self.request.user
 
         return super().form_valid(form)
-
-    def test_func(self):  # this func check that the user which want to delete the post should be author of this post
-        category = self.get_object()
-
-        if self.request.user == category.user:
-            return True
-        else:
-            return False
 
 
 class CategoryUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -48,6 +40,10 @@ class CategoryUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return True
         else:
             return False
+
+    def get_queryset(self):
+        user = self.request.user
+        return Category.objects.filter(user=user)
 
 
 class CategoryListView(LoginRequiredMixin, ListView):
@@ -78,3 +74,11 @@ class CategoryDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         except ProtectedError:
             messages.warning(request, f'You cannot delete this category')
             return redirect('home')
+
+    def test_func(self):  # this func check that the user which want to delete the post should be author of this post
+        category = self.get_object()
+
+        if self.request.user == category.user:
+            return True
+        else:
+            return False

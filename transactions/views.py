@@ -16,7 +16,7 @@ from .forms import TransactionCreateForm
 import json
 
 
-class TransactionCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+class TransactionCreateView(LoginRequiredMixin, CreateView):
     template_name = 'transactions/transaction_create.html'
     form_class = TransactionCreateForm
 
@@ -24,14 +24,6 @@ class TransactionCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView)
         form.instance.user = self.request.user
 
         return super().form_valid(form)
-
-    def test_func(self):  # this func check that the user which want to delete the post should be author of this post
-        category = self.get_object()
-
-        if self.request.user == category.user:
-            return True
-        else:
-            return False
 
 
 class TransactionUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -50,6 +42,10 @@ class TransactionUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView)
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+    def get_queryset(self):
+        user = self.request.user
+        return Transaction.objects.filter(user=user)
 
 
 class TransactionListView(LoginRequiredMixin, ListView):
@@ -79,6 +75,14 @@ class TransactionDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView)
     model = Transaction
     template_name = 'transactions/delete_transaction.html'
     success_url = '/'
+
+    def test_func(self):  # this func check that the user which want to delete the post should be author of this post
+        category = self.get_object()
+
+        if self.request.user == category.user:
+            return True
+        else:
+            return False
 
 
 def generate_spline(request):
