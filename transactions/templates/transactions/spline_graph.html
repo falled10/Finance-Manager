@@ -9,7 +9,7 @@
   <label for="category">Select last date</label><br>
   <select name="option" class="form-control mt-2" id="option">
     {% for option in option_list %}
-    <option value="{{ option.operation_type }}">{{ option.operation_type }}</option>
+    <option value="{{ option }}">{{ option }}</option>
     {% endfor %}
   </select> 
   <label for="category">Select a operation type</label>

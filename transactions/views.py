@@ -8,19 +8,11 @@ from django.views.generic import (
     DeleteView,
     UpdateView,
 )
-from .models import Category, Transaction
-from .forms import CategoryCreateForm, TransactionCreateForm
+from category.models import Category
+from .choices import *
+from .models import Transaction
+from .forms import TransactionCreateForm
 import json
-
-
-class CategoryCreateView(CreateView):
-    template_name = 'transactions/category_create.html'
-    form_class = CategoryCreateForm
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-
-        return super().form_valid(form)
 
 
 class TransactionCreateView(CreateView):
@@ -41,32 +33,6 @@ class TransactionUpdateView(UpdateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
-
-
-class CategoryUpdateView(UpdateView):
-    template_name = 'transactions/category_create.html'
-    form_class = CategoryCreateForm
-    queryset = Category.objects.all()
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
-
-
-class CategoryListView(ListView):
-    template_name = 'transactions/all_categories.html'
-
-    def get_queryset(self):
-        user = self.request.user
-        return Category.objects.filter(user=user)
-
-    def post(self, request, *args, **kwargs):
-        category = request.POST['category']
-        object_list = Category.objects.filter(name__startswith=category)
-        context = {
-            'object_list': object_list,
-        }
-        return render(request, self.template_name, context)
 
 
 class TransactionListView(ListView):
@@ -94,23 +60,10 @@ class TransactionDeleteView(DeleteView):
     success_url = '/'
 
 
-class CategoryDeleteView(DeleteView):
-    model = Category
-    template_name = 'transactions/delete_category.html'
-    success_url = '/'
-
-    def post(self, request, *args, **kwargs):
-        try:
-            return self.delete(request, *args, **kwargs)
-
-        except ProtectedError:
-            messages.warning(request, f'You cannot delete this category')
-            return redirect('home')
-
-
 def generate_spline(request):
+    choices = [i[0] for i in OPERATIONS_CHOICES]
     context = {
-        'option_list': Transaction.objects.filter(user=request.user),
+        'option_list': choices,
         'categories_list': Category.objects.filter(user=request.user),
     }
     if request.method == 'POST':
@@ -132,9 +85,9 @@ def generate_spline(request):
 
 
 def generate_pie(request):
+    choices = [i[0] for i in OPERATIONS_CHOICES]
     context = {
-        'option_list': Transaction.objects.filter(user=request.user),
-        'categories_list': Category.objects.filter(user=request.user),
+        'option_list': choices,
     }
     if request.method == 'POST':
         try:

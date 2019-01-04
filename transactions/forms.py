@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Category, Transaction
+from .models import Transaction
+from category.models import Category
 from django.contrib.admin.widgets import AdminDateWidget
 from .choices import *
 
@@ -8,12 +9,6 @@ from .choices import *
 # this form we use for show normal calendar in template
 class DateInput(forms.DateInput):
     input_type = 'date'
-
-
-class CategoryCreateForm(ModelForm):
-    class Meta:
-        model = Category
-        fields = ['name', 'brief_description']
 
 
 class TransactionCreateForm(ModelForm):
