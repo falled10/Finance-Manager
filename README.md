@@ -17,7 +17,7 @@ $ pip install -r requirements.txt
 $ python manage.py makemigrations
 $ python manage.py migrate
 $ python manage.py createsuperuser
-
+```
 
 ## How to use?
 Open the Add category link in side bar, and add a category<br>
