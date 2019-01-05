@@ -225,3 +225,23 @@ ul {
     width: 500px;
   }
 }
+
+@media screen and (max-width: 450px) {
+  .navig {
+    display: none;
+  }
+
+  .ite {
+    display: block;
+  }
+
+  .text {
+    width: 370px;
+  }
+
+  .graph {
+    height: 330px;
+    width: 370px;
+  }
+}
+
