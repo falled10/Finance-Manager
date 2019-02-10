@@ -55,7 +55,7 @@ class CategoryListView(LoginRequiredMixin, ListView):
 
     def post(self, request, *args, **kwargs):
         category = request.POST['category']
-        object_list = Category.objects.filter(name__startswith=category)
+        object_list = Category.objects.filter(name__startswith=category, user=self.request.user)
         context = {
             'object_list': object_list,
         }

@@ -20,6 +20,11 @@ class TransactionCreateView(LoginRequiredMixin, CreateView):
     template_name = 'transactions/transaction_create.html'
     form_class = TransactionCreateForm
 
+    def get_context_data(self, **kwargs):
+        context = super(TransactionCreateView, self).get_context_data(**kwargs)
+        context['form'] = TransactionCreateForm(user=self.request.user)
+        return context
+
     def form_valid(self, form):
         form.instance.user = self.request.user
 
@@ -62,7 +67,7 @@ class TransactionListView(LoginRequiredMixin, ListView):
 
     def post(self, request, *args, **kwargs):
         transaction = request.POST['transaction']
-        category = Category.objects.get(name=transaction)
+        category = Category.objects.get(name=transaction, user=self.request.user)
         object_list = Transaction.objects.filter(category=category)
         context = {
             'object_list': object_list,

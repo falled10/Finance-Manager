@@ -8,6 +8,9 @@ class Category(models.Model):
     brief_description = models.CharField(max_length=200)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
+    class Meta:
+        unique_together =('name', 'brief_description')
+
     def __str__(self):
         return f'{self.name}'
 

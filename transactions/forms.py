@@ -21,3 +21,8 @@ class TransactionCreateForm(ModelForm):
     class Meta:
         model = Transaction
         fields = ['category', 'operation_type', 'money', 'brief_description', 'pub_date']
+
+    def __init__(self, user=None, **kwargs):
+        super(TransactionCreateForm, self).__init__(**kwargs)
+        if user:
+            self.fields['category'].queryset = Category.objects.filter(user=user)
