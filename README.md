@@ -18,6 +18,11 @@ $ python manage.py makemigrations
 $ python manage.py migrate
 $ python manage.py createsuperuser
 ```
+If some table will not create with migrate command, use:
+
+```
+$ python manage.py migrate --run-syncdb
+```
 
 ## How to use?
 Open the Add category link in side bar, and add a category<br>
