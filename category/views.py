@@ -21,7 +21,10 @@ class CategoryCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
 
-        return super().form_valid(form)
+        try:
+            return super().form_valid(form)
+        except:
+            return redirect('category-create')
 
 
 class CategoryUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
