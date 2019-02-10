@@ -9,7 +9,7 @@ class Category(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     class Meta:
-        unique_together =('name', 'brief_description')
+        unique_together =('name', 'brief_description', 'user')
 
     def __str__(self):
         return f'{self.name}'

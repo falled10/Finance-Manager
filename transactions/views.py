@@ -68,7 +68,7 @@ class TransactionListView(LoginRequiredMixin, ListView):
     def post(self, request, *args, **kwargs):
         transaction = request.POST['transaction']
         category = Category.objects.get(name=transaction, user=self.request.user)
-        object_list = Transaction.objects.filter(category=category)
+        object_list = Transaction.objects.filter(category=category, user=self.request.user)
         context = {
             'object_list': object_list,
             'category_list': Category.objects.filter(user=self.request.user),
